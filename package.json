@@ -19,9 +19,6 @@
     "hanachin <hanachin@gmail.com>",
     "Petr Bela <github@petrbela.com>"
   ],
-  "dependencies": {
-    "handlebars": "1.0.12"
-  },
   "peerDependencies": {
     "karma": ">=0.9"
   },
