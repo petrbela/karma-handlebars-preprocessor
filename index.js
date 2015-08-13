@@ -29,12 +29,19 @@ var createHandlebarsPreprocessor = function(args, config, logger) {
 
     var template = templateName(file.originalPath);
 
-    try {
-      processed = "(function() {" + templates + " = " + templates + " || {};" +
-        templates + "['" + template + "'] = Handlebars.template(" +
-        handlebars.precompile(content) + ");})();";
-    } catch (e) {
-      log.error('%s\n  at %s', e.message, file.originalPath);
+    if(config.amd) {
+      processed = "define(['handlebars'], function(Handlebars) {\n" +
+                  "    return Handlebars.template(" + handlebars.precompile(content)  + ");\n" +
+                  "});"
+
+    } else {
+      try {
+        processed = "(function() {" + templates + " = " + templates + " || {};" +
+            templates + "['" + template + "'] = Handlebars.template(" +
+            handlebars.precompile(content) + ");})();";
+      } catch (e) {
+        log.error('%s\n  at %s', e.message, file.originalPath);
+      }
     }
 
     done(processed);
