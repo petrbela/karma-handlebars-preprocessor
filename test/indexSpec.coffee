@@ -54,3 +54,14 @@ describe 'preprocessor:handlebars', ->
 
       preprocessor('', file, done)
       expect(file.path).to.eq('filename.jsx')
+
+    it 'should generate an anonymous amd module', ->
+      preprocessor = factory({}, {amd: true}, logger, {})
+
+      done = (result) ->
+        expect(result).to.include("define(['handlebars'], function(Handlebars) {")
+        expect(result).to.include("});")
+      file = {originalPath: 'folder/file.hbs'}
+
+      preprocessor('', file, done)
+      expect(file.path).to.eq('folder/file.js')
